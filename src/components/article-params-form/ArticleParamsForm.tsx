@@ -22,14 +22,14 @@ import { Separator } from '../separator';
 import { useOutsideClickCloseOverlay } from '../select/hooks/useOutsideClickCloseOverlay';
 
 export type ArticleParamsFormProps = {
-	setAppState: (value: ArticleStateType) => void;
+	setNewArticle: (value: ArticleStateType) => void;
 };
 
 export const ArticleParamsForm = (props: ArticleParamsFormProps) => {
-	const { setAppState } = props;
+	const { setNewArticle } = props;
 	const formRef = useRef<HTMLDivElement | null>(null);
 
-	const [isOpened, setIsOpened] = useState<boolean>(false);
+	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
 	const [formState, setFormState] =
 		useState<ArticleStateType>(defaultArticleState);
@@ -45,33 +45,33 @@ export const ArticleParamsForm = (props: ArticleParamsFormProps) => {
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		setAppState(formState);
+		setNewArticle(formState);
 	};
 
 	const handleReset = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setFormState(defaultArticleState);
-		setAppState(defaultArticleState);
+		setNewArticle(defaultArticleState);
 	};
 
 	useOutsideClickCloseOverlay({
 		optionRef: formRef,
-		onChange: () => setIsOpened(false),
-		state: isOpened,
+		onChange: () => setIsMenuOpen(false),
+		state: isMenuOpen,
 	});
 
 	return (
 		<>
 			<ArrowButton
-				isActive={isOpened}
-				onClick={() => setIsOpened((currentIsOpened) => !currentIsOpened)}
+				isActive={isMenuOpen}
+				onClick={() => setIsMenuOpen((currentIsOpened) => !currentIsOpened)}
 			/>
 			<div
-				onClick={() => setIsOpened(false)}
-				className={clsx(styles.overlay, isOpened && styles.overlay_open)}
+				onClick={() => setIsMenuOpen(false)}
+				className={clsx(styles.overlay, isMenuOpen && styles.overlay_open)}
 			></div>
 			<aside
-				className={clsx(styles.container, isOpened && styles.container_open)}
+				className={clsx(styles.container, isMenuOpen && styles.container_open)}
 				ref={formRef}
 			>
 				<form
